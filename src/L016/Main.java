@@ -16,26 +16,52 @@ class ListNode {
 }
 public class Main {
     public ListNode Merge(ListNode list1,ListNode list2) {
-        ListNode begin = list1;
-        ListNode temp = null;
-        while(list2 != null && list1 != null){
-            if(list1 == begin && list1.val >= list2.val){
-                temp = list2.next;
-                list2.next = list1;
-                list1 = list2;
-                list2 = temp;
-                begin = list1;
-            }
+        if(list1 == null)
+            return  list2;
+        if(list2 == null)
+            return list1;
 
-            if(list1.next.val >= list2.val ){
-                temp = list2.next;
-                list2.next = list1.next;
-                list1.next = list2;
-                list2 = temp;
+        ListNode one,two,begin;
+        if(list1.val < list2.val) {
+            one = list1;
+            two = list2;
+        } else {
+            one = list2;
+            two = list1;
+        }
+        begin = one;
+
+        while (one.next!=null && two!=null){
+            if(one.val <= two.val && one.next.val > two.val){
+                ListNode next = two.next;
+                two.next = one.next;
+                one.next = two;
+                two = next;
             } else {
-                list1 = list1.next;
+                one = one.next;
             }
         }
+
+        if(two!=null) {
+            one.next = two;
+        }
         return begin;
+    }
+
+    public static void main(String[] args) {
+        ListNode list1 = new ListNode(1);
+        list1.next = new ListNode(3);
+        list1.next.next = new ListNode(5);
+
+        ListNode list2 = new ListNode(2);
+        list2.next = new ListNode(4);
+        list2.next.next = new ListNode(6);
+
+        ListNode result = new Main().Merge(list1,list2);
+
+        while(result!=null) {
+            System.out.println(result.val);
+            result = result.next;
+        }
     }
 }
