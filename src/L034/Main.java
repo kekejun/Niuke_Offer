@@ -10,4 +10,8 @@ public class Main {
     public int InversePairs(int [] array) {
 
     }
+
+    public static void main(String[] args) {
+        
+    }
 }
