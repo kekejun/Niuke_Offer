@@ -1,66 +1,37 @@
 package L023;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 /**
  * Created by IntelliJ IDEA.
  * User: ke li
- * Date: 2018/8/18
- * Time: 19:16
+ * Date: 2018/8/17
+ * Time: 21:47
  */
-
-class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
-
-    public TreeNode(int val) {
-        this.val = val;
-
-    }
-}
-
 public class Main {
-    ArrayList<ArrayList<Integer>> listArray = new ArrayList<>();
-    ArrayList<Integer> list = new ArrayList<>();
 
-    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
-        if (root == null)
-            return listArray;
-        dfs(root, 0, target);
-        return listArray;
+    public boolean VerifySquenceOfBST(int [] sequence) {
+        if(sequence.length == 0)
+            return false;
+        return getPost(0,sequence.length-1,sequence);
     }
 
-    public void dfs(TreeNode now, Integer sum, Integer target) {
-        if(now == null)
-            return;
+    public boolean getPost(int start,int end,int[] sequence) {
+        if(start > end)
+            return true;
 
-        sum += now.val;
-        list.add(now.val);
-
-        if(now.left == null && now.right == null){
-            if (sum == target) {
-                ArrayList<Integer> temp = new ArrayList<>();
-                temp.addAll(list);
-                listArray.add(temp);
-            }
-        } else {
-            dfs(now.left, sum, target);
-            dfs(now.right, sum, target);
+        int i = start;
+        for(i = start ;i< end ; i++ ) {
+            if(sequence[i] > sequence[end])
+                break;
         }
-        list.remove(list.size() - 1);
+        for(int j = i ;j< end ;j++ ) {
+            if(sequence[j] < sequence[end])
+                return false;
+        }
+        return getPost(start,i-1,sequence) && getPost(i,end-1,sequence);
     }
 
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(10);
-        root.left = new TreeNode(5);
-        root.right = new TreeNode(12);
-        root.left.left = new TreeNode(4);
-        root.left.right = new TreeNode(7);
-        Main main = new Main();
-        main.FindPath(root, 15);
-
-        System.out.println(main.listArray);
+        int[] array = {4,6,12,8,16,14,10};
+        System.out.println(new Main().VerifySquenceOfBST(array));
     }
 }

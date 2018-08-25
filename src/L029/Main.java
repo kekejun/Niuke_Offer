@@ -1,33 +1,38 @@
 package L029;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ke li
  * Date: 2018/8/21
- * Time: 16:43
+ * Time: 16:38
  */
 public class Main {
-    public int FindGreatestSumOfSubArray(int[] array) {
-        int[] dp = new int[array.length];
-        System.arraycopy(array,0,dp,0,array.length);
-        int max = Integer.MIN_VALUE;
-        for(Integer temp : array) {
-            if(temp > max)
-                max = temp;
-        }
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if(input == null || input.length < k || k == 0)
+            return list;
 
-        for(int i = 1; i< array.length; i++ ){
-            for(int j = 0 ; j+i <array.length ;j++) {
-                dp[j] += array[j+i];
-                if(max < dp[j])
-                    max = dp[j];
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(k, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2.compareTo(o1);
+            }
+        });
+
+        for(int i = 0 ;i< input.length ;i++ ) {
+            if(maxHeap.size() != k) {
+                maxHeap.add(input[i]);
+            } else if(maxHeap.peek() > input[i]){
+                maxHeap.poll();
+                maxHeap.offer(input[i]);
             }
         }
-        return max;
-    }
 
-    public static void main(String[] args) {
-        int[] array = {1,-2,3,10,-4,7,2,-5};
-        new Main().FindGreatestSumOfSubArray(array);
+        list.addAll(maxHeap);
+        return list;
     }
 }

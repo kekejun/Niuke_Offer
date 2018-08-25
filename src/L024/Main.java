@@ -1,40 +1,65 @@
 package L024;
 
+import java.util.ArrayList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ke li
  * Date: 2018/8/18
- * Time: 19:46
+ * Time: 19:16
  */
 
-class RandomListNode {
-    int label;
-    RandomListNode next = null;
-    RandomListNode random = null;
+class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
 
-    RandomListNode(int label) {
-        this.label = label;
+    public TreeNode(int val) {
+        this.val = val;
+
     }
 }
-public class Main {
-    public RandomListNode Clone(RandomListNode pHead) {
-        if(pHead == null )
-            return null;
-        RandomListNode now = new RandomListNode(pHead.label);
-        now.next = Clone(pHead.next);
-        now.random = pHead.random;
 
-        return now;
+public class Main {
+    ArrayList<ArrayList<Integer>> listArray = new ArrayList<>();
+    ArrayList<Integer> list = new ArrayList<>();
+
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
+        if (root == null)
+            return listArray;
+        dfs(root, 0, target);
+        return listArray;
+    }
+
+    public void dfs(TreeNode now, Integer sum, Integer target) {
+        if(now == null)
+            return;
+
+        sum += now.val;
+        list.add(now.val);
+
+        if(now.left == null && now.right == null){
+            if (sum == target) {
+                ArrayList<Integer> temp = new ArrayList<>();
+                temp.addAll(list);
+                listArray.add(temp);
+            }
+        } else {
+            dfs(now.left, sum, target);
+            dfs(now.right, sum, target);
+        }
+        list.remove(list.size() - 1);
     }
 
     public static void main(String[] args) {
-        RandomListNode now = new RandomListNode(1);
-        now.next = new RandomListNode(2);
-        now.random = new RandomListNode(3);
+        TreeNode root = new TreeNode(10);
+        root.left = new TreeNode(5);
+        root.right = new TreeNode(12);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(7);
+        Main main = new Main();
+        main.FindPath(root, 15);
 
-        RandomListNode temp= new Main().Clone(now);
-        System.out.println(temp.label);
-        System.out.println(temp.next.label);
-        System.out.println(temp.random.label);
+        System.out.println(main.listArray);
     }
 }

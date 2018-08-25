@@ -1,54 +1,67 @@
 package L036;
 
+
 /**
  * Created by IntelliJ IDEA.
  * User: ke li
  * Date: 2018/8/21
- * Time: 20:22
+ * Time: 19:54
  */
-public class Main {
-    public int flag = 0;
-    public int GetNumberOfK(int [] array , int k) {
-        if(array.length == 1 && array[0] == k)
-            return 1;
+class ListNode {
+    int val;
+    ListNode next = null;
 
-        int result = getCount(array,k,0,array.length-1,0);
-        return flag == 1?result:0;
+    ListNode(int val) {
+        this.val = val;
     }
+}
+public class Main {
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        if(pHead1 == null || pHead2 == null)
+            return null;
 
-    public int getCount(int[] array,int k,int begin, int end ,int type) {
-        System.out.println(begin+"   "+end+" "+type);
-        if(begin >= end)
-            return type == 0 ? begin:end;
+        int sum1 = getLength(pHead1);
+        int sum2 = getLength(pHead2);
 
-        int middle = (begin+end)/2;
-        if(k < array[middle]) {
-            return getCount(array,k,begin,middle-1,type);
-        } else if(k > array[middle]) {
-            return getCount(array,k,middle+1,end,type);
+        if(sum1 > sum2) {
+            for(int i = 0 ;i< sum1-sum2 ;i++ )
+                pHead1 = pHead1.next;
         } else {
-            if(flag == 0) {
-                flag = 1;
-                int m = (middle-1>0&& array[middle-1]<k) ? middle:getCount(array,k,begin,middle-1,0);
-                int n = (middle+1<=array.length-1&&array[middle+1]>k)?middle:getCount(array,k,middle+1,end,1);
-                System.out.println(m+" "+n);
-                if(flag == 0)
-                    return 0;
-                return n-m+1;
-            } else {
-                int result = -1;
-                if(type == 0) {
-                    result = (middle-1>0&& array[middle-1]<k) ? middle:getCount(array,k,begin,middle-1,type);
-                } else {
-                    result = (middle+1<=array.length-1&&array[middle+1]>k)?middle:getCount(array,k,middle+1,end,type);
-                }
-                return result;
-            }
+            for(int i = 0 ;i< sum2-sum1 ;i++ )
+                pHead2 = pHead2.next;
         }
+
+        while(pHead1 != pHead2) {
+            pHead1 = pHead1.next;
+            pHead2 = pHead2.next;
+        }
+
+        return pHead1;
+    }
+    int getLength(ListNode node) {
+        int sum = 0;
+        while (node != null ){
+            node = node.next;
+            sum++;
+        }
+        return sum;
     }
 
     public static void main(String[] args) {
-        int[] array = {3};
-        System.out.println(new Main().GetNumberOfK(array,2));
+        Main main = new Main();
+        ListNode node = new ListNode(1);
+        node.next = new ListNode(2);
+        node.next.next = new ListNode(3);
+
+        ListNode node1 = new ListNode(4);
+        node1.next = new ListNode(5);
+
+        ListNode node2 = new ListNode(6);
+        node2.next = new ListNode(7);
+
+        node.next.next.next = node2;
+        node1.next.next = node2;
+
+        main.FindFirstCommonNode(node1,node2);
     }
 }

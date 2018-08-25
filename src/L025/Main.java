@@ -1,51 +1,40 @@
 package L025;
 
-import javax.swing.*;
-
 /**
  * Created by IntelliJ IDEA.
  * User: ke li
  * Date: 2018/8/18
- * Time: 20:08
+ * Time: 19:46
  */
 
-class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
+class RandomListNode {
+    int label;
+    RandomListNode next = null;
+    RandomListNode random = null;
 
-    public TreeNode(int val) {
-        this.val = val;
-
+    RandomListNode(int label) {
+        this.label = label;
     }
-
 }
 public class Main {
-    public TreeNode Convert(TreeNode pRootOfTree) {
-        if(pRootOfTree == null)
+    public RandomListNode Clone(RandomListNode pHead) {
+        if(pHead == null )
             return null;
-        if(pRootOfTree.left == null && pRootOfTree.right == null)
-            return pRootOfTree;
+        RandomListNode now = new RandomListNode(pHead.label);
+        now.next = Clone(pHead.next);
+        now.random = pHead.random;
 
-        TreeNode left = Convert(pRootOfTree.left);
-        TreeNode p = left;
-
-        while (p!=null && p.right !=null) {
-            p = p.right;
-        }
-
-        if(left != null) {
-            p.right = pRootOfTree;
-            pRootOfTree.left = p;
-        }
-
-        TreeNode right = Convert(pRootOfTree.right);
-        if( right != null ) {
-            right.left = pRootOfTree;
-            pRootOfTree.right = right;
-        }
-
-        return left!=null ? left : pRootOfTree;
+        return now;
     }
 
+    public static void main(String[] args) {
+        RandomListNode now = new RandomListNode(1);
+        now.next = new RandomListNode(2);
+        now.random = new RandomListNode(3);
+
+        RandomListNode temp= new Main().Clone(now);
+        System.out.println(temp.label);
+        System.out.println(temp.next.label);
+        System.out.println(temp.random.label);
+    }
 }

@@ -1,42 +1,49 @@
 package L026;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
-
 /**
  * Created by IntelliJ IDEA.
  * User: ke li
  * Date: 2018/8/18
- * Time: 21:11
+ * Time: 20:08
  */
-public class Main {
-    public ArrayList<String> Permutation(String str) {
-        ArrayList<String> result = new ArrayList<>();
 
-        if(str == null || str.length() == 0)
-            return result;
+class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
 
-        char[] strs = str.toCharArray();
+    public TreeNode(int val) {
+        this.val = val;
 
-        TreeSet<String> treeResult = new TreeSet<>();
-        Permutation(treeResult,strs,0);
-        result.addAll(treeResult);
-        return result;
     }
 
-    public void Permutation(TreeSet<String> treeResult, char[] strs,Integer nowIndex) {
-        if(nowIndex == strs.length -1) {
-            treeResult.add(String.valueOf(strs));
-        } else {
-            for(int i = nowIndex ;i< strs.length ;i++ ){
-                char temp = strs[i];
-                strs[i] = strs[nowIndex];
-                strs[nowIndex] = temp;
-                Permutation(treeResult,strs,nowIndex+1);
-                strs[nowIndex] = strs[i];
-                strs[i] = temp;
-            }
+}
+public class Main {
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        if(pRootOfTree == null)
+            return null;
+        if(pRootOfTree.left == null && pRootOfTree.right == null)
+            return pRootOfTree;
+
+        TreeNode left = Convert(pRootOfTree.left);
+        TreeNode p = left;
+
+        while (p!=null && p.right !=null) {
+            p = p.right;
         }
 
+        if(left != null) {
+            p.right = pRootOfTree;
+            pRootOfTree.left = p;
+        }
+
+        TreeNode right = Convert(pRootOfTree.right);
+        if( right != null ) {
+            right.left = pRootOfTree;
+            pRootOfTree.right = right;
+        }
+
+        return left!=null ? left : pRootOfTree;
     }
+
 }
