@@ -13,16 +13,15 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
 
-        int count = 0,max = 0;
+        int count = 0,max = Integer.MIN_VALUE;
         for(int i = 0 ;i< n ;i++ ) {
             int now = sc.nextInt();
-            if(now > 0) {
-                count += now;
-            } else {
-                count = 0;
-            }
+            count += now;
             if(max < count)
                 max = count;
+            if(count < 0) {
+                count = 0;
+            }
         }
         System.out.println(max);
     }
