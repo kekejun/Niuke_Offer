@@ -1,4 +1,4 @@
-package seventeen.jingdong.one;
+package seventeen.jingdong.t3;
 
 import java.util.Arrays;
 import java.util.Scanner;

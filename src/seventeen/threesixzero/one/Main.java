@@ -1,8 +1,6 @@
 package seventeen.threesixzero.one;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Scanner;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,13 +9,13 @@ import java.io.InputStreamReader;
  * Time: 17:54
  */
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader sc = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            String data = sc.readLine();
-            String first = sc.readLine();
-            String second = sc.readLine();
+        while (scanner.hasNext()) {
+            String data = scanner.nextLine();
+            String first = scanner.nextLine();
+            String second = scanner.nextLine();
 
             int flag = 0;
 
